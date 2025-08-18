@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router';
-import { FaLaptopCode } from 'react-icons/fa';
+import { FaLaptopCode, FaTimes, FaBars } from 'react-icons/fa';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const base = 'transition hover:text-blue-400';
   const active = 'text-blue-400 font-bold';
 

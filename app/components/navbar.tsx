@@ -53,7 +53,56 @@ const Navbar = () => {
             </NavLink>
           </div>
         </div>
+        <div className='md:hidden flex items-center gap-4'>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className='text-blue-400 text-xl cursor-pointer'
+            title='Menu'
+          >
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </div>
+      {/* {Mobile Nav} */}
+      {menuOpen && (
+        <div className='md:hidden bg-gray-800 border-t border-gray-700 px-6 py-4 space-y-2 space-x-4 text-center'>
+          <NavLink
+            className={({ isActive }) => (isActive ? active : base)}
+            to='/'
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? active : base)}
+            to='/projects'
+            onClick={() => setMenuOpen(false)}
+          >
+            Projects
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? active : base)}
+            to='/blog'
+            onClick={() => setMenuOpen(false)}
+          >
+            Blog
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? active : base)}
+            to='/about'
+            onClick={() => setMenuOpen(false)}
+          >
+            About
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? active : base)}
+            to='/contact'
+            onClick={() => setMenuOpen(false)}
+          >
+            Contact
+          </NavLink>
+        </div>
+      )}
     </nav>
   );
 };

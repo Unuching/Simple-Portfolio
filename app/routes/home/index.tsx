@@ -8,12 +8,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const now = new Date().toISOString();
-  if (typeof window === 'undefined') {
-    console.log('Server Render at', now);
-  } else {
-    console.log('Client Render at', now);
-  }
-
   return <>Hello</>;
 }

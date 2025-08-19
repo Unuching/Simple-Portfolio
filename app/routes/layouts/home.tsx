@@ -1,0 +1,14 @@
+import { Outlet } from 'react-router';
+import Hero from '~/components/hero';
+
+const HomeLayout = () => {
+  return (
+    <>
+      <Hero name='Unuching Marma' />
+      <section className='max-w-6xl mx-auto px-6 py-8'>
+        <Outlet />
+      </section>
+    </>
+  );
+};
+export default HomeLayout;

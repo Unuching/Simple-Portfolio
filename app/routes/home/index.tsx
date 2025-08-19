@@ -15,5 +15,5 @@ export default function Home() {
     console.log('Client Render at', now);
   }
 
-  return <section>Hello</section>;
+  return <>Hello</>;
 }

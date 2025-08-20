@@ -14,22 +14,42 @@ export async function loader({
 }
 
 const ProjectPage = ({ loaderData }: Route.ComponentProps) => {
-  const { projects } = loaderData as { projects: Project[] };
-  console.log(projects);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
 
   const projectPerPage = 10;
-  const totalPage = Math.ceil(projects.length / projectPerPage);
+
+  const { projects } = loaderData as { projects: Project[] };
+  console.log(projects);
+
+  // get unique categories
+
+  const categories = [
+    'All',
+    ...new Set(projects.map((project) => project.category)),
+  ];
+
+  //filter projects
+  const filteredProjects =
+    selectedCategory === 'All'
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
+
+  const totalPage = Math.ceil(filteredProjects.length / projectPerPage);
 
   const indexOfLast = currentPage * projectPerPage;
   const indexOfFirst = indexOfLast - projectPerPage;
-  const currentProjects = projects.slice(indexOfFirst, indexOfLast);
+  const currentProjects = filteredProjects.slice(indexOfFirst, indexOfLast);
 
   return (
     <>
       <h2 className='text-3xl font-bold text-white mb-8 text-center'>
         My projects
       </h2>
+
+      
       <div className='grid gap-6 md:grid-cols-2'>
         {currentProjects.map((project) => (
           <ProjectCard project={project} key={project.id} />

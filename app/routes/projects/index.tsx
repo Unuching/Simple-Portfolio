@@ -3,6 +3,7 @@ import type { Project } from '~/types';
 import ProjectCard from '~/components/peojectCard';
 import { useState } from 'react';
 import Pagination from '~/components/pagination';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export async function loader({
   request,
@@ -48,13 +49,30 @@ const ProjectPage = ({ loaderData }: Route.ComponentProps) => {
       <h2 className='text-3xl font-bold text-white mb-8 text-center'>
         My projects
       </h2>
-
-      
-      <div className='grid gap-6 md:grid-cols-2'>
-        {currentProjects.map((project) => (
-          <ProjectCard project={project} key={project.id} />
+      <div className='flex flex-wrap gap-2 mb-8'>
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => {
+              setSelectedCategory(category);
+              setCurrentPage(1);
+            }}
+            className={`px-3 py-1 rounded text-sm cursor-pointer ${selectedCategory === category ? 'bg-blue-600 text-white' : 'bg-gray-600 text-gray-200'}`}
+          >
+            {category}
+          </button>
         ))}
       </div>
+      <AnimatePresence mode='wait'>
+        <motion.div layout className='grid gap-6 md:grid-cols-2'>
+          {currentProjects.map((project) => (
+            <motion.div key={project.id} layout>
+              <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
+
       <Pagination
         totalPage={totalPage}
         currentPage={currentPage}

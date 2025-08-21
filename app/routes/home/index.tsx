@@ -2,7 +2,6 @@ import type { Project } from '~/types';
 import type { Route } from './+types/index';
 import FeaturedProjects from '~/components/featuredProjects';
 import type { ComponentProps } from 'react';
-import { log } from 'console';
 export function meta({}: Route.MetaArgs) {
   return [
     { title: 'My Simple Portfolio App' },
@@ -23,7 +22,7 @@ const HomePage = ({ loaderData }: Route.ComponentProps) => {
 
   return (
     <>
-      <FeaturedProjects />
+      <FeaturedProjects projects={projects} count={2} />
     </>
   );
 };

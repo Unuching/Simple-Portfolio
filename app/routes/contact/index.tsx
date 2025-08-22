@@ -8,6 +8,8 @@ export async function action({ request }: Route.ActionArgs) {
   const subject = formData.get('subject');
   const message = formData.get('message');
 
+  const errors:Record<string, string> = {}
+
   const data = { name, email, subject, message };
 
   return { message: 'Form submitted succesfully', data };

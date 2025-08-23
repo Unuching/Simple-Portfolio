@@ -3,12 +3,22 @@ import { Form } from 'react-router';
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const subject = formData.get('subject');
-  const message = formData.get('message');
+  const name = formData.get('name') as string;
+  const email = formData.get('email') as string;
+  const subject = formData.get('subject') as string;
+  const message = formData.get('message') as string;
 
-  const errors:Record<string, string> = {}
+  const errors: Record<string, string> = {};
+
+  if (!name) errors.name = 'Name is required';
+  if (!email) {
+    errors.email = 'Email is required';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = 'Invalid email format';
+  }
+
+  if (!subject) errors.subject = 'Subject is required';
+  if (!message) errors.message = 'Message is required';
 
   const data = { name, email, subject, message };
 

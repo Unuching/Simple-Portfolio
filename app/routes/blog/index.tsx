@@ -1,6 +1,5 @@
-import { div } from 'framer-motion/client';
 import type { Route } from './+types/index';
-import { Link } from 'react-router';
+
 import type { PostsMeta } from '~/types';
 
 import PostCardPage from '~/components/postcard';

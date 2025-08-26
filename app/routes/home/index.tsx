@@ -4,6 +4,7 @@ import FeaturedProjects from '~/components/featuredProjects';
 import type { ComponentProps } from 'react';
 import AboutPreview from '~/components/aboutPreview';
 import type { PostsMeta } from '~/types';
+import LatestPost from '~/components/latestPosts';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,31 +15,37 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({
   request,
-}: Route.LoaderArgs): Promise<{ projects: Project[] }> {
+}: Route.LoaderArgs): Promise<{ projects: Project[]; posts: PostsMeta[] }> {
   const url = new URL(request.url);
 
   const [projectRes, postRes] = await Promise.all([
     fetch(`${import.meta.env.VITE_API_URL}/projects`),
-    fetch new URL('/posts-meta.json', url)
+    fetch(new URL('/posts-meta.json', url)),
   ]);
 
   // const res = await fetch(`${import.meta.env.VITE_API_URL}/projects`);
   // const data = await res.json();
 
-if(!projectRes.ok || !postRes.ok){
-  throw new Error("Failed to get Data")
-}
+  if (!projectRes.ok || !postRes.ok) {
+    throw new Error('Failed to get Data');
+  }
 
-  return { projects: data };
+  const [projects, posts] = await Promise.all([
+    projectRes.json(),
+    postRes.json(),
+  ]);
+
+  return { projects, posts };
 }
 
 const HomePage = ({ loaderData }: Route.ComponentProps) => {
-  const { projects } = loaderData;
+  const { projects, posts } = loaderData;
 
   return (
     <>
       <FeaturedProjects projects={projects} count={2} />
       <AboutPreview />
+      <LatestPost posts={posts} />
     </>
   );
 };

@@ -3,7 +3,7 @@ const AboutPreview = () => {
   return (
     <section className='mt-12 p-10 flex flex-col md:flex-row items-center gap-8 bg-gray-900 '>
       <img
-        src='/public/images/profile.jpg'
+        src='/images/profile.jpg'
         alt='profile'
         className='w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-md'
       />
@@ -15,7 +15,12 @@ const AboutPreview = () => {
           taught myself web development and continue to expand my skills through
           hands-on learning and projects.
         </p>
-        <Link to='/about' className='inline-block text-blue-400 hover:underline text-sm'>Learn More About Me</Link>
+        <Link
+          to='/about'
+          className='inline-block text-blue-400 hover:underline text-sm'
+        >
+          Learn More About Me
+        </Link>
       </div>
     </section>
   );

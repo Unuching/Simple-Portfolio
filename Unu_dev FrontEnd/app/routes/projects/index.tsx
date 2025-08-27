@@ -1,10 +1,9 @@
 import type { Route } from './+types/index';
-import type { Project } from '~/types';
+import type { Project, StrapiProject, StrapiResponse } from '~/types';
 import ProjectCard from '~/components/peojectCard';
 import { useState } from 'react';
 import Pagination from '~/components/pagination';
 import { AnimatePresence, motion } from 'framer-motion';
-import { it } from 'node:test';
 
 export async function loader({
   request,
@@ -13,19 +12,23 @@ export async function loader({
   const res = await fetch(
     `${import.meta.env.VITE_API_URL}/projects?populate=*`
   );
-  const json = await res.json();
+  const json: StrapiResponse<StrapiProject> = await res.json();
 
-  const projects = json.data.map((item)=>({
-    id:item.id,
+  const projects = json.data.map((item) => ({
+    id: item.id,
     documentId: item.documentId,
     title: item.title,
-    description:item.description,
-    image:
+    description: item.description,
+    image: item.image?.url
+      ? `${import.meta.env.VITE_STRAPI_URL}${item.image.url}`
+      : '/images/no-image.png',
+    url: item.url,
+    date: item.date,
+    category: item.category,
+    featured: item.featured,
+  }));
 
-
-  }))
-
-  return { projects: data };
+  return { projects };
 }
 
 const ProjectPage = ({ loaderData }: Route.ComponentProps) => {
@@ -37,7 +40,7 @@ const ProjectPage = ({ loaderData }: Route.ComponentProps) => {
   const projectPerPage = 10;
 
   const { projects } = loaderData as { projects: Project[] };
-  console.log(projects);
+  //console.log(projects);
 
   // get unique categories
 

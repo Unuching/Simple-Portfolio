@@ -1,6 +1,6 @@
 import type { Route } from './+types/index';
 import type { Project, StrapiProject, StrapiResponse } from '~/types';
-import ProjectCard from '~/components/peojectCard';
+import ProjectCard from '~/components/projectCard';
 import { useState } from 'react';
 import Pagination from '~/components/pagination';
 import { AnimatePresence, motion } from 'framer-motion';

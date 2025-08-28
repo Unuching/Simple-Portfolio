@@ -1,6 +1,6 @@
 import type { Route } from './+types/index';
 import { useState } from 'react';
-import type { PostsMeta } from '~/types';
+import type { PostsMeta, StrapiResponse, StrapiProject } from '~/types';
 import PostCardPage from '~/components/postcard';
 import Pagination from '~/components/pagination';
 import PostFilter from '~/components/postFilter';

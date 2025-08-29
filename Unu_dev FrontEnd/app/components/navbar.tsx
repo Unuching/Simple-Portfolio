@@ -15,7 +15,7 @@ const Navbar = () => {
           className='flex items-center gap-2 text-lg font-bold text-blue-300 '
         >
           <FaLaptopCode className='text-blue-400 text-xl' />
-          <span>The Selftaught Developer</span>
+          <span>The Selftaught-Developer</span>
         </NavLink>
         {/* {Desktop View} */}
 

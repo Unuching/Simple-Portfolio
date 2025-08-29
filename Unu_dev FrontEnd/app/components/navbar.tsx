@@ -99,7 +99,7 @@ const Navbar = () => {
             to='/contact'
             onClick={() => setMenuOpen(false)}
           >
-            Contact
+            Contact Me
           </NavLink>
         </div>
       )}

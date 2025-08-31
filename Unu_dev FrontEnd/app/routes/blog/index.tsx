@@ -1,18 +1,13 @@
 import type { Route } from './+types/index';
 import { useState } from 'react';
-import type {
-  PostsMeta,
-  StrapiResponse,
-  StrapiProject,
-  StrapiPost,
-} from '~/types';
+import type { post, StrapiResponse, StrapiProject, StrapiPost } from '~/types';
 import PostCardPage from '~/components/postcard';
 import Pagination from '~/components/pagination';
 import PostFilter from '~/components/postFilter';
 
 export async function loader({
   request,
-}: Route.LoaderArgs): Promise<{ posts: PostsMeta[] }> {
+}: Route.LoaderArgs): Promise<{ posts: post[] }> {
   const res = await fetch(
     `${import.meta.env.VITE_API_URL}/posts?populate=image&sort=date:desc`
   );

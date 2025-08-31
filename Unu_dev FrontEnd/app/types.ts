@@ -9,10 +9,11 @@ export type Project = {
   category: string;
   featured: boolean;
 };
-export type PostsMeta = {
+export type post = {
   id: string;
   slug: string;
   title: string;
+  body: string;
   excerpt: string;
   date: string;
   image: string;

@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import type { Route } from './+types/details';
-import type { post, StrapiResponse, StrapiPost } from '~/types';
+import type { Post, StrapiResponse, StrapiPost } from '~/types';
 import { Link } from 'react-router';
 import { FaArrowLeft } from 'react-icons/fa';
 
@@ -34,7 +34,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 }
 type blogpostDetailsProps = {
   loaderData: {
-    post: post;
+    post: Post;
   };
 };
 const BlogDetailsPage = ({ loaderData }: blogpostDetailsProps) => {

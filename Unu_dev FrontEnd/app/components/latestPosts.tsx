@@ -1,13 +1,13 @@
 import { Link } from 'react-router';
-import type { PostsMeta } from '~/types';
+import type { Post } from '~/types';
 
 type latestPostProps = {
-  posts: PostsMeta[];
+  posts: Post[];
   limit?: number;
 };
 
 const LatestPost = ({ posts, limit = 3 }: latestPostProps) => {
-  const sorted = [...posts].sort((a: PostsMeta, b: PostsMeta) => {
+  const sorted = [...posts].sort((a: Post, b: Post) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
   const latest = sorted.slice(0, limit);

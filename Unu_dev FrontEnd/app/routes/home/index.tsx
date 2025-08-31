@@ -1,10 +1,14 @@
-import type { Project, StrapiProject, StrapiResponse } from '~/types';
+import type {
+  Project,
+  StrapiPost,
+  StrapiProject,
+  StrapiResponse,
+} from '~/types';
 import type { Route } from './+types/index';
 import FeaturedProjects from '~/components/featuredProjects';
 import AboutPreview from '~/components/aboutPreview';
-import type { PostsMeta } from '~/types';
+import type { Post } from '~/types';
 import LatestPost from '~/components/latestPosts';
-
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,14 +19,14 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({
   request,
-}: Route.LoaderArgs): Promise<{ projects: Project[]; posts: PostsMeta[] }> {
+}: Route.LoaderArgs): Promise<{ projects: Project[]; posts: Post[] }> {
   const url = new URL(request.url);
 
   const [projectRes, postRes] = await Promise.all([
     fetch(
       `${import.meta.env.VITE_API_URL}/projects?filters[featured][$eq]=true&populate=*`
     ),
-    fetch(new URL('/posts-meta.json', url)),
+    fetch(`${import.meta.env.VITE_API_URL}/posts?sort[0]=date:desc&populate=*`),
   ]);
 
   if (!projectRes.ok || !postRes.ok) {
@@ -31,7 +35,7 @@ export async function loader({
 
   const projectsJson: StrapiResponse<StrapiProject> = await projectRes.json();
 
-  const postsJson = await postRes.json();
+  const postsJson: StrapiResponse<StrapiPost> = await postRes.json();
 
   const projects = projectsJson.data.map((item) => ({
     id: item.id,
@@ -46,8 +50,21 @@ export async function loader({
     category: item.category,
     featured: item.featured,
   }));
+  const posts = postsJson.data.map((item) => ({
+    id: item.id,
 
-  return { projects, posts: postsJson };
+    title: item.title,
+    slug: item.slug,
+    excerpt: item.excerpt,
+    date: item.date,
+    body: item.body,
+
+    image: item.image?.url
+      ? `${import.meta.env.VITE_STRAPI_URL}${item.image.url}`
+      : '/images/no-image.png',
+  }));
+
+  return { projects, posts };
 }
 
 const HomePage = ({ loaderData }: Route.ComponentProps) => {

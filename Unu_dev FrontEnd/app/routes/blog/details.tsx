@@ -1,23 +1,34 @@
 import ReactMarkdown from 'react-markdown';
 import type { Route } from './+types/details';
-import type { PostsMeta } from '~/types';
+import type { PostsMeta, StrapiResponse, StrapiPost } from '~/types';
 import { Link } from 'react-router';
 import { FaArrowLeft } from 'react-icons/fa';
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   const { slug } = params;
-  const url = new URL('/posts-meta.json', request.url);
-  const res = await fetch(url.href);
+  const res = await fetch(
+    `${import.meta.env.VITE_API_URL}/posts?filters[slug][$eq]=${slug}&populate=image`
+  );
 
   if (!res.ok) throw new Error('Failed to fetch data');
 
-  const index = await res.json();
-  const postMeta = index.find((post: PostsMeta) => post.slug === slug);
-  if (!postMeta) throw new Response('Not found', { status: 404 });
+  const json: StrapiResponse<StrapiPost> = await res.json();
 
-  // dynamically importing md
+  if (!json.data.length) throw new Response('Not found', { status: 404 });
 
-  const markDown = await import(`../../posts/${slug}.md?raw`);
+  const item = json.data[0];
+
+  const post = {
+    id: item.id,
+    slug: item.slug,
+    excerpt: item.excerpt,
+    title: item.title,
+    date: item.date,
+    body: item.body,
+    image: item.image.url
+      ? `${import.meta.env.VITE_STRAPI_URL}${item.image.url}`
+      : '/images/no-image.png',
+  };
 
   return { postMeta, markDown: markDown.default };
 }
